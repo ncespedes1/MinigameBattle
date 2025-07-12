@@ -1,8 +1,10 @@
+import random
 
-
-#Base Character
 
 class Character:
+
+    defense = 0
+
     def __init__(self, name, health, attack_power): 
 
         self.name = name 
@@ -10,10 +12,11 @@ class Character:
         self.attack_power = attack_power
         self.max_health = health
 
+
     def attack(self, opponent):
-        opponent.health -= self.attack_power
         print(f"{self.name} has attacked {opponent.name}!")
         print(f"{opponent.name} has taken {self.attack_power} points of damage.")
+        opponent.health -= self.attack_power
 
         if opponent.health <= 0:
             print(f"{opponent.name} has fainted.")
@@ -33,7 +36,13 @@ class Character:
             print(f"{self.name} has regained 15 hp. {self.name} has {self.health} hp left.")
 
     def display_stats(self):
-        print(f"{self.name}'s Stats \n Health: {self.health} \n Attack Power: {self.attack_power}")
+        print(f"""
+        {self.name}'s Stats:
+        ==============
+        Health: {self.health}
+        Attack Power: {self.attack_power}""")
+
+
     
 
 class Warrior(Character):
@@ -41,18 +50,20 @@ class Warrior(Character):
         super().__init__(name, health=150, attack_power=25)
     
     def attack(self, opponent):
-        opponent.health -= self.attack_power
-        print(f"{self.name} swings his sword!")
+        print(f"\n{self.name} swings his Greatsword!")
         print(f"{opponent.name} has taken {self.attack_power} points of damage.")
+        opponent.health -= self.attack_power
+
         if opponent.health <= 0:
             print(f"{opponent.name} has fainted.")
         else:
             print(f"{opponent.name} has {opponent.health} hp left.")
 
     def special_ability(self, opponent):
-        print(f"{self.name} activates their Rage and is engulfed in flames!")
+        print(f"\n{self.name} activates their Rage and is engulfed in flames!")
+        print(f"{self.name} attacks {opponent.name} while enraged!")
         opponent.health -= self.attack_power*3
-        print(f"{self.name} uses their Rage against {opponent.name}!")
+
         print(f"{opponent.name} has taken {self.attack_power*3} points of damage.")
         if opponent.health <= 0:
             print(f"{opponent.name} has fainted.")
@@ -72,22 +83,29 @@ class Mage(Character):
         super().__init__(name, health = 90, attack_power=75)
 
     def attack(self, opponent):
-        opponent.health -= self.attack_power
         print(f"{self.name} casts meteor strike!")
         print(f"{opponent.name} has taken {self.attack_power} points of damage.")
+        opponent.health -= self.attack_power
+
         if opponent.health <= 0:
             print(f"{opponent.name} has fainted.")
         else:
             print(f"{opponent.name} has {opponent.health} hp left.")
 
     def special_ability(self, opponent):
-        self.health -= 5
         print(f"{self.name} sacrifices 5 hp and casts Army of the Undead!")
-        random = randint()
-        print(f"{random} undead allies have risen to help.")
-        opponent.health -= 40*random
-        print(f"{random} army members attack {opponent.name}!")
-        print(f"{opponent.name} has taken {40*random} points of damage.")
+        self.health -= 5
+
+        random_int = random.randint(1,5)
+        print(f"{random_int} Undead allies have risen to help.")
+        print(f"{random_int} Undead attack {opponent.name}!")
+
+        while random_int > 0 and opponent.health > 0:
+            print(f"{opponent.name} has taken 40 points of damage.")
+            opponent.health -= 40
+            random_int -= 1
+            print("An Undead ally returns to their underground rest.")
+
         if opponent.health <= 0:
             print(f"{opponent.name} has fainted.")
         else:
@@ -98,12 +116,15 @@ class Archer(Character):
         super().__init__(name, health=80, attack_power=35)
     
     def attack(self, opponent):
-        opponent.health -= self.attack_power
-        print(f"{self.name} fires a quick shot!")
-        opponent.health -= self.attack_power
-        print(f"{self.name} fires a quick shot!")
-        
-        print(f"{opponent.name} has taken {self.attack_power*2} points of damage.")
+        print(f"{self.name} fires a QuickShot!")
+        print(f"Two arrows were released!")
+
+        random_int = random.randint(1,2)
+
+        print(f"{random_int} arrow(s) hit!")
+        print(f"{opponent.name} has taken {self.attack_power*random_int} points of damage.")
+        opponent.health -= self.attack_power*random_int
+
         if opponent.health <= 0:
             print(f"{opponent.name} has fainted.")
         else:
@@ -111,6 +132,7 @@ class Archer(Character):
 
     def special_ability(self, opponent):
         print(f"{self.name} prepares to evade {opponent.name}'s next attack!")
+        self.defense = 1
         if opponent.attack(self):
             pass
 
@@ -121,9 +143,10 @@ class Paladin(Character):
         super().__init__(name, health=110, attack_power=60)
     
     def attack(self, opponent):
-        opponent.health -= self.attack_power
-        print(f"{self.name} swings his sword!")
+        print(f"{self.name} casts Smite!")
         print(f"{opponent.name} has taken {self.attack_power} points of damage.")
+        opponent.health -= self.attack_power
+
         if opponent.health <= 0:
             print(f"{opponent.name} has fainted.")
         else:
@@ -131,27 +154,27 @@ class Paladin(Character):
 
     def special_ability(self, opponent):
         print(f"{self.name} prepares their Divine Shield for {opponent.name}'s next attack!")
-        # idk put a check here
-        if opponent.attack(self):
-            pass
+        self.defense = 2
 
 class Magical_Girl(Character):
     def __init__(self, name):
         super().__init__(name, health=150, attack_power=100)
     
     def attack(self, opponent):
-        opponent.health -= self.attack_power
-        print(f"{self.name} uses the power of friendship!")
+        print(f"{self.name} uses the Power of Friendship!")
         print(f"{opponent.name} has taken {self.attack_power} points of damage.")
+        opponent.health -= self.attack_power
+
         if opponent.health <= 0:
             print(f"{opponent.name} has a flashback of a childhood friend and faints.")
         else:
             print(f"{opponent.name} has {opponent.health} hp left.")
 
     def special_ability(self, opponent):
-        opponent.health -= self.attack_power*2
         print(f"{self.name} uses Nuclear GlitterBomb on {opponent.name}!")
         print(f"{opponent.name} has taken {self.attack_power*2} points of damage.")
+        opponent.health -= self.attack_power*2
+
         if opponent.health <= 0:
             print(f"{opponent.name} begins to rethink their life choices and faints.")
         else:
@@ -165,7 +188,31 @@ class EvilWizard(Character):
 
     def regenerate(self):
         self.health += 5
-        print(f"{self.name} regenerated 5 health! Current Health: {self.health}")
+        print(f"\n{self.name} regenerated 5 health! Current Health: {self.health}")
+
+    def attack(self, opponent):
+        if opponent.defense == 1:
+            print(f"{opponent.name} evaded the attack!")
+
+        elif opponent.defense == 2:
+            deflected_hit = int(self.attack_power/3)
+
+            print(f"{opponent.name} shielded against the attack!")
+            print(f"{self.name}'s attack was partially deflected back!")
+            print(f"{self.name} has taken {deflected_hit} points of damage.")
+            opponent.health -= deflected_hit
+            
+        else:
+            print(f"{self.name} has attacked {opponent.name}!")
+            print(f"{opponent.name} has taken {self.attack_power} points of damage.")
+            opponent.health -= self.attack_power
+        
+        opponent.defense = 0
+
+        if opponent.health <= 0:
+            print(f"{opponent.name} has fainted.")
+        else:
+            print(f"{opponent.name} has {opponent.health} hp left.")
 
 
 def create_character():
@@ -178,7 +225,7 @@ def create_character():
         3. Archer
         4. Paladin
         """)
-    choice = input("Insert Class choice number:")
+    choice = input("Insert Class choice number: ")
 
     if choice == "1":
         return Warrior(name)
@@ -193,10 +240,11 @@ def create_character():
         print("Secret Character Unlocked. Beginning Magical Girl Transformation.")
         return Magical_Girl(name)
     
+    
 def battle(player,boss):
     while boss.health > 0 and player.health > 0:
-        print(""" 
-        Your Turn 
+        print(f""" 
+        {player.name}'s Turn 
         ============== 
         1. Attack 
         2. Use Special Ability
@@ -204,7 +252,7 @@ def battle(player,boss):
         4. View their Stats
         """)
 
-        choice = input("Insert choice number:")
+        choice = input("Insert choice number: ")
 
         if choice == "1":
             player.attack(boss)
@@ -214,17 +262,25 @@ def battle(player,boss):
             player.heal()
         elif choice == "4":
             player.display_stats()
+            continue
+
 
         if boss.health > 0:
             boss.regenerate();
             boss.attack(player)
         else:
-            print(f"========= CONGRATULATIONS!!!! =============")
+            print(f"\n====== ♪♬ ====== ♪♬ ==== CONGRATULATIONS!!!! ==== ♪♬ ====== ♪♬ ======\n")
+            print("(ノ°▽°)ノ  ♪♬ （〜^∇^ )〜  ♪♬  ᕕ( >_<)ᕗ  ♪♬  ╰(^o^ )╮  ♪♬  ~(˘▾˘ ~) \n")
             print(f"You have defeated {boss.name} and saved the land!")
+            print(f"You won 20% off on your next ice-cream order.")
             break
 
 def main():
+    print("Welcome to blahblahblah!")
+    print("There is an Evil Wizard terrorizing our town! They'll stop at nothing to drink all of our sodas!")
+    print("Please help us and save our fizzy goods.")
     player = create_character()
+
     wizard = EvilWizard()
     battle(player, wizard)
 
