@@ -217,7 +217,7 @@ class Magical_Girl(Character):
         opponent.health -= self.attack_power
 
         if opponent.health <= 0:
-            print(f"{opponent.name} has fainted.")
+            print(f"{opponent.name} has a flashback of a childhood friend and faints.")
         else:
             print(f"{opponent.name} has {opponent.health} hp left.")
 
@@ -237,7 +237,7 @@ class Magical_Girl(Character):
         opponent.health -= self.attack_power*2
 
         if opponent.health <= 0:
-            print(f"{opponent.name} has a flashback of a childhood friend and faints.")
+            print(f"{opponent.name} develops a moral compass and feels overwhelming guilt. {opponent.name} tears up and faints.")
         else:
             print(f"{opponent.name} has {opponent.health} hp left.")
 
@@ -264,7 +264,9 @@ class EvilWizard(Character):
 
         if random_int == 5:
             current_attack = self.attack_power*2
-            print(f"{self.name} locked in! {self.name}'s attack power doubled.")
+            print(f"{self.name} locked in!")
+            print(f"{self.name} takes out two stolen Growth Spurt Shakes and scarfs them down.")
+            print(f"{self.name} doubles in size for this turn! {self.name}'s attack power is doubled.")
 
         if opponent.defense == 1:
             print(f"{opponent.name} evaded the attack!")
