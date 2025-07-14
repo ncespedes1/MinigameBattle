@@ -62,11 +62,11 @@ class Warrior(Character):
         print(f"{opponent.name} has taken {self.attack_power*3} points of damage.")
 
         if opponent.health <= 0:
-            print(f"{opponent.name} has fainted.")
+            print(f"{opponent.name} has fainted. A smell resembling crispy rotisserie chicken fills the air.")
         else:
             print(f"{opponent.name} has {opponent.health} hp left.")
         
-        print(f"{self.name} takes 10 hp recoil damage while attacking enraged.")
+        print(f"{self.name} takes 10 points of recoil damage while attacking enraged.")
         self.health -= 10
         if self.health <= 0:
             print(f"{self.name} has fainted.")
@@ -82,7 +82,7 @@ class Warrior(Character):
         opponent.health -= self.attack_power+20
 
         if opponent.health <= 0:
-            print(f"{opponent.name} has fainted.")
+            print(f"{opponent.name}'s motivation was sliced up. {opponent.name} has fainted.")
         else:
             print(f"{opponent.name} has {opponent.health} hp left.")
 
@@ -118,7 +118,7 @@ class Mage(Character):
             print("An Undead ally returns to their underground rest.")
 
         if opponent.health <= 0:
-            print(f"{opponent.name} has fainted.")
+            print(f"{opponent.name} was overwhelmed by the army and has fainted.")
         else:
             print(f"{opponent.name} has {opponent.health} hp left.")
 
@@ -129,7 +129,7 @@ class Mage(Character):
         random_int = random.randint(1,5)
         if random_int == 5:
             print("A Secret Weakness was discovered!")
-            print(f"{opponent.name}'s lactase pills float out of his pockets and burst into flames!")
+            print(f"{opponent.name}'s lactase pills float out of the cloak pockets and burst into flames!")
             print(f"{opponent.name} takes {opponent.max_health-20} points of damage.")
 
             if opponent.health <= 0:
@@ -154,10 +154,10 @@ class Archer(Character):
         self.defense = 1
 
     def special_ability2(self, opponent):
+        random_int = random.randint(1,2)
+        
         print(f"{self.name} fires off QuickShot!")
         print(f"Two arrows were released!")
-
-        random_int = random.randint(1,2)
 
         print(f"{random_int} arrow(s) hit!")
         print(f"{opponent.name} has taken {self.attack_power*random_int} points of damage.")
@@ -168,9 +168,10 @@ class Archer(Character):
         else:
             print(f"{opponent.name} has {opponent.health} hp left.")
 
-        while random_int == 2:
-            print(f"{self.name} sees another opening!")
-            continue
+        if random_int == 2 and opponent.health > 0:
+            print(f"\n {self.name} sees another opening!")
+            self.special_ability2(opponent)
+            
 
 
 
